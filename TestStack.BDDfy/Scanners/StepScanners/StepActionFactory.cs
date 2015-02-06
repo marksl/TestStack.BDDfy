@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Reflection;
-using System.Threading.Tasks;
 
 namespace TestStack.BDDfy
 {
@@ -21,10 +20,6 @@ namespace TestStack.BDDfy
             };
         }
 
-        public static Func<object,object> GetStepAction<TScenario>(Func<TScenario, Task> action)
-           where TScenario : class
-        {
-            return o => action((TScenario)o);
-        }
+        
     }
 }

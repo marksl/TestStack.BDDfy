@@ -63,7 +63,7 @@ namespace TestStack.BDDfy.Reporters
 
         private static Tuple<Step, string[]> GetStepWithLines(Step s)
         {
-            return Tuple.Create(s, s.Title.Replace("\r\n", "\n").Split('\n').Select(l => PrefixWithSpaceIfRequired(l, s.ExecutionOrder)).ToArray());
+            return new Tuple<Step, string[]>(s, s.Title.Replace("\r\n", "\n").Split('\n').Select(l => PrefixWithSpaceIfRequired(l, s.ExecutionOrder)).ToArray());
         }
 
         private void ReportTags(List<string> tags)
@@ -72,7 +72,7 @@ namespace TestStack.BDDfy.Reporters
                 return;
 
             WriteLine();
-            WriteLine("Tags: {0}", string.Join(", ", tags));
+            WriteLine("Tags: {0}", string.Join(", ", tags.ToArray()));
         }
 
         private void WriteExamples(Scenario exampleScenario, IEnumerable<Scenario> scenarioGroup)
@@ -183,7 +183,7 @@ namespace TestStack.BDDfy.Reporters
 
             if (stepAndLines.Item2.Length > 1)
             {
-                message = string.Format("{0}\r\n{1}", message, string.Join("\r\n", stepAndLines.Item2.Skip(1)));
+                message = string.Format("{0}\r\n{1}", message, string.Join("\r\n", stepAndLines.Item2.Skip(1).ToArray()));
             }
 
             if (step.Exception != null)
@@ -241,7 +241,7 @@ namespace TestStack.BDDfy.Reporters
             return string.Join(" ", message
                 .Replace("\t", " ") // replace tab with one space
                 .Split(new[] { "\r\n", "\n" }, StringSplitOptions.None)
-                .Select(s => s.Trim()))
+                .Select(s => s.Trim()).ToArray())
                 .TrimEnd(','); // chop any , from the end
         }
 

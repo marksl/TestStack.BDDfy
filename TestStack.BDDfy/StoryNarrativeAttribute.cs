@@ -16,7 +16,7 @@ namespace TestStack.BDDfy
         {
             var property = new StringBuilder();
 
-            if (string.IsNullOrWhiteSpace(text))
+            if (string.IsNullOrEmpty(text) || string.IsNullOrEmpty(text.Trim()))
                 return null;
 
             if (!text.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))

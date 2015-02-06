@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Linq;
-using System.Threading.Tasks;
 using TestStack.BDDfy.Annotations;
 using TestStack.BDDfy.Configuration;
 
@@ -73,19 +72,13 @@ namespace TestStack.BDDfy
 
             return title;
         }
-
-        public void AddStep(Func<Task> stepAction, string title, bool reports, ExecutionOrder executionOrder, bool asserts, string stepPrefix)
-        {
-            var action = StepActionFactory.GetStepAction<object>(o => stepAction());
-            _steps.Add(new Step(action, new StepTitle(AppendPrefix(title, stepPrefix)), FixAsserts(asserts, executionOrder), FixConsecutiveStep(executionOrder), reports, new List<StepArgument>()));
-        }
-
+        
         public void AddStep(Expression<Func<ExampleAction>> stepAction, bool reports, ExecutionOrder executionOrder, bool asserts, string stepPrefix)
         {
             var compiledAction = stepAction.Compile();
             var call = Expression.Call(Expression.Constant(this),
                 _fakeExecuteActionMethod, stepAction.Body);
-            var expression = Expression.Lambda<Action<TScenario>>(call, Expression.Parameter(typeof(TScenario)));
+            var expression = Expression.Lambda<Action<TScenario>>(call, Expression.Parameter(typeof(TScenario), "tScenario"));
             AddStep(_ => compiledAction().Action(), expression, null, true, reports, executionOrder, asserts, stepPrefix);
         }
 
@@ -94,20 +87,6 @@ namespace TestStack.BDDfy
         private void ExecuteAction(ExampleAction action)
         {
             
-        }
-
-        public void AddStep(Expression<Func<TScenario, Task>> stepAction, string stepTextTemplate, bool includeInputsInStepTitle, bool reports, ExecutionOrder executionOrder, bool asserts, string stepPrefix)
-        {
-            var action = stepAction.Compile();
-            var inputArguments = new StepArgument[0];
-            if (includeInputsInStepTitle)
-            {
-                inputArguments = stepAction.ExtractArguments(_testObject).ToArray();
-            }
-
-            var title = CreateTitle(stepTextTemplate, includeInputsInStepTitle, GetMethodInfo(stepAction), inputArguments, stepPrefix);
-            var args = inputArguments.Where(s => !string.IsNullOrEmpty(s.Name)).ToList();
-            _steps.Add(new Step(StepActionFactory.GetStepAction(action), title, FixAsserts(asserts, executionOrder), FixConsecutiveStep(executionOrder), reports, args));
         }
 
         public void AddStep(Expression<Action<TScenario>> stepAction, string stepTextTemplate, bool includeInputsInStepTitle, bool reports, ExecutionOrder executionOrder, bool asserts, string stepPrefix)
@@ -209,7 +188,7 @@ namespace TestStack.BDDfy
                                         if (matchingHeader != null)
                                             return string.Format("<{0}>", matchingHeader);
                                     }
-                                    return i.Value.Value.FlattenArray();
+                                    return (string)i.Value.Value.FlattenArray();
                                 })
                                 .ToArray();
                         stepTitle = stepTitle + " " + string.Join(", ", stringFlatInputs);

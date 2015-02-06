@@ -27,7 +27,7 @@ namespace TestStack.BDDfy
 
         public override string ToString()
         {
-            return string.Join(", ", Values.Select(i => i.ToString()));
+            return string.Join(", ", Values.Select(i => i.ToString()).ToArray());
         }
     }
 }

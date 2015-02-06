@@ -77,7 +77,7 @@ namespace TestStack.BDDfy.Reporters.MarkDown
             if (!tags.Any())
                 return;
 
-            report.AppendLine(string.Format("Tags: {0}", string.Join(", ", tags.Select(t => string.Format("`{0}`", t)))));
+            report.AppendLine(string.Format("Tags: {0}", string.Join(", ", tags.Select(t => string.Format("`{0}`", t)).ToArray()).ToArray()));
         }
 
         private void WriteExamples(StringBuilder report, Scenario exampleScenario, IEnumerable<Scenario> scenarioGroup)
@@ -173,8 +173,9 @@ namespace TestStack.BDDfy.Reporters.MarkDown
                 else
                     report.AppendLine();
 
-                var stackTrace = string.Join(Environment.NewLine, exception.StackTrace.Split(new[] { Environment.NewLine }, StringSplitOptions.None)
-                    .Select(s => "    " + s));
+                var stackTrace = string.Join(Environment.NewLine, 
+                    exception.StackTrace.Split(new[] { Environment.NewLine }, StringSplitOptions.None)
+                    .Select(s => "    " + s).ToArray());
                 report.AppendLine(stackTrace);
             }
 
@@ -186,7 +187,7 @@ namespace TestStack.BDDfy.Reporters.MarkDown
             return string.Join(" ", message
                 .Replace("\t", " ") // replace tab with one space
                 .Split(new[] { "\r\n", "\n" }, StringSplitOptions.None)
-                .Select(s => s.Trim()))
+                .Select(s => s.Trim()).ToArray())
                 .TrimEnd(','); // chop any , from the end
         }
     }

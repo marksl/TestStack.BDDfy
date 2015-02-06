@@ -1,7 +1,6 @@
 using System;
 using System.Security;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace TestStack.BDDfy.Processors
 {
@@ -14,22 +13,8 @@ namespace TestStack.BDDfy.Processors
             {
                 var asyncSyncContext = new AsyncTestSyncContext();
                 SetSynchronizationContext(asyncSyncContext);
-                var result = performStep();
-                var task = result as Task;
-                if (task != null)
-                {
-                    try
-                    {
-                        task.Wait();
-                    }
-                    catch (AggregateException ae)
-                    {
-                        var innerException = ae.InnerException;
-                        ExceptionProcessor.PreserveStackTrace(innerException);
-                        throw innerException;
-                    }
-                }
-                else
+                performStep();
+                
                 {
                     var ex = asyncSyncContext.WaitForCompletion();
                     if (ex != null)

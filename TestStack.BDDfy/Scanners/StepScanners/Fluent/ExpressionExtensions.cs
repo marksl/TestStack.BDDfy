@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Threading.Tasks;
 
 namespace TestStack.BDDfy
 {
@@ -14,12 +13,8 @@ namespace TestStack.BDDfy
             return new ArgumentExtractorVisitor().ExtractArguments(expression, value);
         }
 
-        public static IEnumerable<StepArgument> ExtractArguments<T>(this Expression<Func<T, Task>> expression, T value)
-        {
-            return new ArgumentExtractorVisitor().ExtractArguments(expression, value);
-        }
-
-        private class ArgumentExtractorVisitor : ExpressionVisitor
+        
+        private class ArgumentExtractorVisitor : MyExpressionVisitor
         {
             private List<StepArgument> _arguments;
 
@@ -75,10 +70,20 @@ namespace TestStack.BDDfy
 
             private static Action<object> SetValue(Expression a, Type parameterType)
             {
-                var parameter = Expression.Parameter(typeof(object));
-                var unaryExpression = Expression.Convert(parameter, parameterType);
-                var assign = Expression.Assign(a, unaryExpression);
-                return Expression.Lambda<Action<object>>(assign, parameter).Compile();
+                // HACK
+                // HACK
+                // HACK
+
+                return (ab)=>{};
+             //   var parameter = Expression.Parameter(typeof(object), "obj");
+             //   var unaryExpression = Expression.Convert(parameter, parameterType);
+             //// Think this'll work
+
+
+             //   http://stackoverflow.com/questions/10122856/implementation-of-expression-assign-in-net-3-5-with-same-signature
+                
+             //   var assign = Expression.Assign(a, unaryExpression);
+             //   return Expression.Lambda<Action<object>>(assign, parameter).Compile();
             }
         }
     }

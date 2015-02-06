@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TestStack.BDDfy</RootNamespace>
     <AssemblyName>TestStack.BDDfy</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -74,6 +74,8 @@
     <Compile Include="IBatchProcessor.cs" />
     <Compile Include="IStepExecutor.cs" />
     <Compile Include="ITestContext.cs" />
+    <Compile Include="MyExpressionVisitor.cs" />
+    <Compile Include="MyTuple.cs" />
     <Compile Include="Processors\AsyncTestRunner.cs" />
     <Compile Include="Processors\ScenarioExecutor.cs" />
     <Compile Include="Processors\UnusedExampleException.cs" />

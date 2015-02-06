@@ -212,7 +212,7 @@ namespace TestStack.BDDfy.Reporters.Html
 
         private string FormatTags(List<string> tags)
         {
-            return string.Join(string.Empty, tags.Select(t => string.Format("<div class='tag'>{0}</div>", t)));
+            return string.Join(string.Empty, tags.Select(t => string.Format("<div class='tag'>{0}</div>", t)).ToArray());
         }
 
         private void AddExamples(Scenario[] scenarioGroup)
@@ -379,7 +379,7 @@ namespace TestStack.BDDfy.Reporters.Html
 
         private void AddHtmlComment(string htmlComment)
         {
-            if (string.IsNullOrWhiteSpace(htmlComment))
+            if (string.IsNullOrEmpty(htmlComment) || string.IsNullOrEmpty(htmlComment.Trim()))
                 return;
 
             _html.AppendFormat("/*{0}*/", htmlComment);

@@ -98,10 +98,10 @@ namespace TestStack.BDDfy.Reporters.Html
 
                         var tileOptions = new[]
                                           {
-                                              Tuple.Create("Passed", "limebg", _model.Summary.Passed),
-                                              Tuple.Create("Failed", "redbg", _model.Summary.Failed),
-                                              Tuple.Create("Inconclusive", "orangebg", _model.Summary.Inconclusive),
-                                              Tuple.Create("NotImplemented", "bluebg", _model.Summary.NotImplemented)
+                                              new Tuple<string, string, int>("Passed", "limebg", _model.Summary.Passed),
+                                              new Tuple<string, string, int>("Failed", "redbg", _model.Summary.Failed),
+                                              new Tuple<string, string, int>("Inconclusive", "orangebg", _model.Summary.Inconclusive),
+                                              new Tuple<string, string, int>("NotImplemented", "bluebg", _model.Summary.NotImplemented)
                                           };
 
 
@@ -227,7 +227,7 @@ namespace TestStack.BDDfy.Reporters.Html
 
         private string FormatTags(List<string> tags)
         {
-            return string.Join(string.Empty, tags.Select(t => string.Format("<div class='tag'>{0}</div>", t)));
+            return string.Join(string.Empty, tags.Select(t => string.Format("<div class='tag'>{0}</div>", t)).ToArray());
         }
 
         private void AddExamples(Scenario[] scenarioGroup)
@@ -394,7 +394,7 @@ namespace TestStack.BDDfy.Reporters.Html
 
         private void AddHtmlComment(string htmlComment)
         {
-            if (string.IsNullOrWhiteSpace(htmlComment))
+            if (string.IsNullOrEmpty(htmlComment) || string.IsNullOrEmpty(htmlComment.Trim()))
                 return;
 
             _html.AppendFormat("/*{0}*/", htmlComment);

@@ -71,7 +71,8 @@ namespace TestStack.BDDfy
 
         public override string ToString()
         {
-            return string.Join("{0}: {1}", Header, _underlyingValue);
+            return string.Format("{0}:{1}", Header, _underlyingValue);
+            //return string.Join("{0}: {1}", Header, _underlyingValue);
         }
 
         public string GetValueAsString()
