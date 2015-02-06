@@ -9,7 +9,7 @@ namespace TestStack.BDDfy.Tests.Scanner.ReflectiveScanner
 {
     public class WhenStepScannerFactoryAsyncMethods
     {
-        [Fact]
+        [Fact(Skip = "No longer support async")]
         public void CallingAsyncTaskWhichThrowsIsObservedAndRethrown()
         {
             var stepAction = StepActionFactory.GetStepAction<SomeScenario>(o => AsyncTaskMethod(o));            
@@ -33,7 +33,7 @@ namespace TestStack.BDDfy.Tests.Scanner.ReflectiveScanner
             Should.Throw<ArgumentException>(()=> AsyncTestRunner.Run(() => stepAction(this)));
         }
 
-        [Fact]
+        [Fact(Skip = "No longer support async")]
         public void InvokingAsyncVoidWhichThrowsIsObservedAndRethrown()
         {
             var methodInfo = typeof(WhenStepScannerFactoryAsyncMethods).GetMethod("AsyncTaskMethod", BindingFlags.Instance | BindingFlags.NonPublic);

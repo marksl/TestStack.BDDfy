@@ -188,10 +188,11 @@ namespace TestStack.BDDfy
                                         if (matchingHeader != null)
                                             return string.Format("<{0}>", matchingHeader);
                                     }
-                                    return (string)i.Value.Value.FlattenArray();
+                                    return i.Value.Value.FlattenArray();
                                 })
                                 .ToArray();
-                        stepTitle = stepTitle + " " + string.Join(", ", stringFlatInputs);
+                        string[] strings = stringFlatInputs.Select(x => x.ToString()).Where(x=>x!=null).ToArray();
+                        stepTitle = stepTitle + " " + string.Join(", ", strings);
                     }
 
                     return stepTitle.Trim();
