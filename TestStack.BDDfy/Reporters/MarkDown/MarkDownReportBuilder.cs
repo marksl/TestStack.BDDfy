@@ -77,7 +77,7 @@ namespace TestStack.BDDfy.Reporters.MarkDown
             if (!tags.Any())
                 return;
 
-            report.AppendLine(string.Format("Tags: {0}", string.Join(", ", tags.Select(t => string.Format("`{0}`", t)).ToArray()).ToArray()));
+            report.AppendLine(string.Format("Tags: {0}", string.Join(", ", tags.Select(t => string.Format("`{0}`", t)).ToArray())));
         }
 
         private void WriteExamples(StringBuilder report, Scenario exampleScenario, IEnumerable<Scenario> scenarioGroup)
